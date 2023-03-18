@@ -1,10 +1,14 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-const SignInScreen = ({navigation}) => {
+import { AuthRoutes } from '../navigations/routes';
+const SignInScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SignInScreen</Text>
-      <Button title="signup" onPress={()=> navigation.navigate('SignUp')}/>
+      <Button
+        title="signup"
+        onPress={() => navigation.navigate(AuthRoutes.SIGN_UP)}
+      />
     </View>
   );
 };
