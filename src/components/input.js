@@ -36,7 +36,7 @@ export const ReturnKeyTypes = {
   NEXT: 'next',
 };
 
-const Input = forwardRef(({ inputType, ...props }, ref) => {
+const Input = forwardRef(({ inputType, styles, ...props }, ref) => {
   const {
     title,
     placeholder,
@@ -49,14 +49,14 @@ const Input = forwardRef(({ inputType, ...props }, ref) => {
   const { value } = props;
 
   return (
-    <View style={styles.container}>
+    <View style={[defaultStyles.container, styles?.container]}>
       <Text
-        style={
-          ([styles.title],
-          { color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK })
-        }
+        style={[
+          defaultStyles.title,
+          { color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK },
+          styles?.title,
+        ]}
       >
-        {' '}
         {title}
       </Text>
 
@@ -65,11 +65,12 @@ const Input = forwardRef(({ inputType, ...props }, ref) => {
           ref={ref}
           {...props}
           style={[
-            styles.input,
+            defaultStyles.input,
             {
               borderColor: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
               color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
             },
+            styles?.input,
           ]}
           placeholder={placeholder}
           keyboardType={keyboardType}
@@ -77,7 +78,7 @@ const Input = forwardRef(({ inputType, ...props }, ref) => {
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
         />
-        <View style={styles.icon}>
+        <View style={[defaultStyles.icon, styles?.icon]}>
           <MaterialCommunityIcons
             name={isFocused ? active : inactive}
             size={24}
@@ -93,9 +94,10 @@ Input.displayName = 'Input';
 Input.propTypes = {
   inputType: PropTypes.oneOf(Object.values(InputTypes)),
   value: PropTypes.string,
+  styles: {},
 };
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   container: {
     width: '100%',
   },

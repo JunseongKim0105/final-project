@@ -16,17 +16,13 @@ const SignInScreen = ({ navigation }) => {
         onPress={() => navigation.navigate(AuthRoutes.SIGN_UP)}
       />
 
-      {/* <Input
-        title={'EMAIL'}
-        placeholder={'your@email.com'}
-        iconName={'email'}
-        keyboardType={KeyboardTypes.EMAIL}
-      /> */}
       <Input
         inputType={InputTypes.EMAIL}
         value={email}
         onChangeText={(text) => setEmail(text.trim())}
+        style={inputStyles}
       />
+
       <Input
         inputType={InputTypes.PASSWORD}
         value={password}
@@ -37,6 +33,10 @@ const SignInScreen = ({ navigation }) => {
 };
 
 SignInScreen.propTypes = {};
+
+const inputStyles = StyleSheet.create({
+  container: { paddingHorizontal: 20, marginBottom: 20 },
+});
 
 const styles = StyleSheet.create({
   container: {
