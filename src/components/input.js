@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { forwardRef, useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { GRAY, PRIMARY } from '../colors';
 
 export const KeyboardTypes = {
   DEFAULT: 'default',
@@ -45,16 +46,31 @@ const Input = forwardRef(({ inputType, ...props }, ref) => {
   } = InputTypeProps[inputType];
 
   const [isFocused, setIsFocused] = useState(false);
+  const { value } = props;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> {title}</Text>
+      <Text
+        style={
+          ([styles.title],
+          { color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK })
+        }
+      >
+        {' '}
+        {title}
+      </Text>
 
       <View>
         <TextInput
           ref={ref}
           {...props}
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              borderColor: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
+              color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
+            },
+          ]}
           placeholder={placeholder}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
@@ -65,7 +81,7 @@ const Input = forwardRef(({ inputType, ...props }, ref) => {
           <MaterialCommunityIcons
             name={isFocused ? active : inactive}
             size={24}
-            color="black"
+            color={value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK}
           />
         </View>
       </View>
@@ -76,6 +92,7 @@ Input.displayName = 'Input';
 
 Input.propTypes = {
   inputType: PropTypes.oneOf(Object.values(InputTypes)),
+  value: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
