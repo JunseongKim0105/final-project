@@ -59,9 +59,13 @@ const SignInScreen = () => {
         setUser(user);
       } catch (e) {
         const message = getAuthErrorMessages(e.code);
-        Alert.alert('Login failed', message);
+        Alert.alert('Login failed', message, [
+          {
+            text: 'confirm',
+            onPress: () => dispatch({ type: AuthFormTypes.TOGGLE_LOADING }),
+          },
+        ]);
       }
-      dispatch({ type: AuthFormTypes.TOGGLE_LOADING });
     }
   };
 
