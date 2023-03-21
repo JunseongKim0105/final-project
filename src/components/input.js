@@ -108,7 +108,7 @@ Input.displayName = 'Input';
 Input.propTypes = {
   inputType: PropTypes.oneOf(Object.values(InputTypes)),
   value: PropTypes.string,
-  styles: {},
+  styles: PropTypes.object,
 };
 
 const defaultStyles = StyleSheet.create({
