@@ -4,6 +4,7 @@ import { signOut } from '../api/auth';
 import { useUserState } from '../contexts/UserContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GRAY, WHITE } from '../colors';
+import FastImage from '../components/FastImage';
 
 const ProfileScreen = () => {
   const [user, setUser] = useUserState();
@@ -34,7 +35,7 @@ const ProfileScreen = () => {
             user.photoURL || { backgroundColor: GRAY.DEFAULT },
           ]}
         >
-          <Image source={{ uri: user.photoURL }} style={styles.photo} />
+          <FastImage source={{ uri: user.photoURL }} style={styles.photo} />
           <Pressable style={styles.editButton} onPress={() => {}}>
             <MaterialCommunityIcons name="pencil" size={20} color={WHITE} />
           </Pressable>
