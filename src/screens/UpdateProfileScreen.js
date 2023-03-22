@@ -11,11 +11,20 @@ import FastImage from '../components/FastImage';
 import { useUserState } from '../contexts/UserContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GRAY, WHITE } from '../colors';
+import HeaderRight from '../components/HeaderRight';
+import { useLayoutEffect } from 'react';
 
 const UpdateProfileScreen = () => {
   const navigation = useNavigation();
 
   const [user] = useUserState();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderRight onPress={() => console.log('right')} />,
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Button title="back" onPress={() => navigation.goBack()} />
@@ -25,7 +34,7 @@ const UpdateProfileScreen = () => {
           <MaterialCommunityIcons name="image" size={20} color={WHITE} />
         </Pressable>
       </View>
-      
+
       <View>
         <TextInput
           value={user.displayName}
