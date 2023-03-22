@@ -4,6 +4,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged as onAuthStateChangedFirebase,
+  signOut as signOutFirebase,
+  updateProfile,
 } from 'firebase/auth';
 
 export const getAuthErrorMessages = (errorCode) => {
@@ -39,4 +41,16 @@ export const signUp = async ({ email, password }) => {
 
 export const onAuthStateChanged = (callback) => {
   return onAuthStateChangedFirebase(getAuth(), callback);
+};
+
+export const signOut = async () => {
+  await signOutFirebase(getAuth());
+};
+
+export const updateUserInfo = async (userInfo) => {
+  try {
+    await updateProfile(getAuth().currentUser, userInfo);
+  } catch (e) {
+    throw new Error('profile update is failed.');
+  }
 };
