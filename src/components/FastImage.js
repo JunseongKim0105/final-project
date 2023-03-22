@@ -5,7 +5,7 @@ import * as Crypto from 'expo-crypto';
 import * as FileSystem from 'expo-file-system';
 
 const FastImage = ({ source, ...props }) => {
-  const [uri, setUri] = useState;
+  const [uri, setUri] = useState(source.uri);
 
   useEffect(() => {
     (async () => {
