@@ -2,6 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Alert,
   Keyboard,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -16,6 +17,8 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { updateUserInfo } from '../api/auth';
 import SafeInputView from '../components/SafeInputView';
 import { MainRoutes } from '../navigations/routes';
+import { getLocalUri } from '../components/ImagePicker';
+import { uploadPhoto } from '../api/storage';
 
 const UpdateProfileScreen = () => {
   const navigation = useNavigation();
@@ -42,7 +45,16 @@ const UpdateProfileScreen = () => {
     if (!disabled) {
       setIsLoading(true);
       try {
-        const userInfo = { displayName };
+        const localUri = photo.id
+          ? Platform.select({
+              ios: await getLocalUri(photo.id),
+              android: photo.uri,
+            })
+          : photo.uri;
+
+        const photoURL = await uploadPhoto(localUri);
+
+        const userInfo = { displayName, photoURL };
 
         await updateUserInfo(userInfo);
         setUser((prev) => ({ ...prev, ...userInfo }));
@@ -53,7 +65,7 @@ const UpdateProfileScreen = () => {
         setIsLoading(false);
       }
     }
-  }, [disabled, displayName, navigation, setUser]);
+  }, [disabled, displayName, navigation, setUser, photo.id, photo.uri]);
 
   useEffect(() => {
     setDisabled(!displayName || isLoading);
