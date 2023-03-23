@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 import {
   useCallback,
   useEffect,
@@ -51,6 +51,13 @@ const ImagePickerScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
+  const stateRoutes = useNavigationState((state) => state.routes);
+
+  const onConfirm = useCallback(() => {
+    const prevScreenName = stateRoutes.at(-2).name;
+    navigation.navigate(prevScreenName, { selectedPhotos });
+  }, [navigation, selectedPhotos, stateRoutes]);
+
   const getPhotos = useCallback(async () => {
     const options = {
       first: 30,
@@ -84,9 +91,11 @@ const ImagePickerScreen = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => <HeaderRight onPress={() => {}} />,
+      headerRight: () => (
+        <HeaderRight onPress={onConfirm} disabled={selectedPhotos.length < 1} />
+      ),
     });
-  });
+  }, [navigation, onConfirm, selectedPhotos.length]);
 
   const isSelectedPhoto = (photo) => {
     return selectedPhotos.findIndex((item) => item.id === photo.id) > -1;
@@ -100,8 +109,6 @@ const ImagePickerScreen = () => {
         : [...prev, photo]
     );
   };
-
-  console.log(selectedPhotos);
 
   return (
     <View style={styles.container}>
