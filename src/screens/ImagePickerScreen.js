@@ -1,5 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Alert,
   FlatList,
@@ -16,32 +22,6 @@ const ImagePickerScreen = () => {
   const navigation = useNavigation();
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
-  const width = useWindowDimensions().width / 3;
-  const [photos, setPhotos] = useState([]);
-  const [listInfo, setListInfo] = useState({
-    endCursor: '',
-    hasNextPage: true,
-  });
-
-  const getPhotos = useCallback(async () => {
-    const options = {
-      first: 30,
-      sortBy: [MediaLibrary.SortBy.creationTime],
-    };
-    if (listInfo.hasNextPage) {
-      const { assets, endCursor, hasNextPage } =
-        await MediaLibrary.getAssetsAsync(options);
-      setPhotos(assets);
-      setListInfo({ endCursor, hasNextPage });
-    }
-  }, [listInfo.hasNextPage]);
-
-  useEffect(() => {
-    if (status?.granted) {
-      getPhotos();
-    }
-  }, [status?.granted, getPhotos]);
-
   useEffect(() => {
     (async () => {
       const { granted } = await requestPermission();
@@ -54,7 +34,40 @@ const ImagePickerScreen = () => {
         ]);
       }
     })();
-  }, [navigation,requestPermission]);
+  }, [navigation, requestPermission]);
+
+  const width = useWindowDimensions().width / 3;
+  const [photos, setPhotos] = useState([]);
+  const listInfo = useRef({
+    endCursor: '',
+    hasNextPage: true,
+  });
+
+  const getPhotos = useCallback(async () => {
+    const options = {
+      first: 30,
+      sortBy: [MediaLibrary.SortBy.creationTime],
+    };
+
+    if (listInfo.current.endCursor) {
+      options['after'] = listInfo.current.endCursor;
+    }
+
+    if (listInfo.current.hasNextPage) {
+      const { assets, endCursor, hasNextPage } =
+        await MediaLibrary.getAssetsAsync(options);
+      setPhotos((prev) => [...prev, ...assets]);
+      listInfo.current({ endCursor, hasNextPage });
+    }
+  }, []);
+
+  console.log(photos.length);
+
+  useEffect(() => {
+    if (status?.granted) {
+      getPhotos();
+    }
+  }, [status?.granted, getPhotos]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -72,6 +85,8 @@ const ImagePickerScreen = () => {
           </Pressable>
         )}
         numColumns={3}
+        onEndReached={getPhotos}
+        onEndReachedThreshold={0.3}
       />
     </View>
   );
