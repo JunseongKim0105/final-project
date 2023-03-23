@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { GRAY } from '../colors';
+import { BLACK, GRAY, PRIMARY } from '../colors';
 import { MainRoutes } from '../navigations/routes';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
@@ -73,7 +73,11 @@ const SelectPhotosScreen = () => {
 
       <View style={{ width, height: width }}>
         (photos.length ? (
-        <Swiper>
+        <Swiper
+          loop={false}
+          dot={<View style={styles.dot} />}
+          activeDot={<View style={[styles.dot, styles.activeDot]} />}
+        >
           {photos.map(({ uri }, idx) => (
             <View key={idx} style={styles.photo}>
               <Image
@@ -131,6 +135,19 @@ const styles = StyleSheet.create({
   photo: {
     width: '100%',
     height: '100%',
+  },
+  dot: {
+    backgroundColor: BLACK,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
+    marginBottom: 3,
+  },
+  activeDot: {
+    backgroundColor: PRIMARY.DEFAULT,
   },
 });
 
