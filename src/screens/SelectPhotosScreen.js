@@ -40,7 +40,7 @@ const SelectPhotosScreen = () => {
     if (!disabled) {
       setIsLoading(true);
       try {
-        const localUris = await Promise.all(
+        const photoUris = await Promise.all(
           photos.map((photo) =>
             Platform.select({
               ios: getLocalUri(photo.id),
@@ -48,7 +48,7 @@ const SelectPhotosScreen = () => {
             })
           )
         );
-        console.log(localUris);
+        navigation.navigate(MainRoutes.WRITE_TEXT, { photoUris });
       } catch (e) {
         Alert.alert('Failed to fetch image information', e.message);
       }
@@ -71,21 +71,22 @@ const SelectPhotosScreen = () => {
       </Text>
 
       <View style={{ width, height: width }}>
-        (photos.length ? (
-        <ImageSwiper photos={photos} />) : (
-        <Pressable
-          onPress={() =>
-            navigation.navigate(MainRoutes.IMAGE_PICKER, { maxCount: 4 })
-          }
-          style={styles.photoButton}
-        >
-          <MaterialCommunityIcons
-            name="image-plus"
-            size={80}
-            color={GRAY.DEFAULT}
-          />
-        </Pressable>
-        ))
+        {photos.length ? (
+          <ImageSwiper photos={photos} />
+        ) : (
+          <Pressable
+            onPress={() =>
+              navigation.navigate(MainRoutes.IMAGE_PICKER, { maxCount: 4 })
+            }
+            style={styles.photoButton}
+          >
+            <MaterialCommunityIcons
+              name="image-plus"
+              size={80}
+              color={GRAY.DEFAULT}
+            />
+          </Pressable>
+        )}
       </View>
     </View>
   );
@@ -94,8 +95,6 @@ const SelectPhotosScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   description: {
     color: GRAY.DARK,
