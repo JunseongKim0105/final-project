@@ -48,13 +48,13 @@ const SelectPhotosScreen = () => {
             })
           )
         );
-        navigation.navigate(MainRoutes.WRITE_TEXT, { photoUris });
+        navigation.replace(MainRoutes.WRITE_TEXT, { photoUris });
       } catch (e) {
         Alert.alert('Failed to fetch image information', e.message);
       }
       setIsLoading(false);
     }
-  }, [disabled, photos]);
+  }, [disabled, photos,navigation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -16,7 +16,7 @@ const MAX_TEXT_LENGTH = 60;
 const WriteTextScreen = () => {
   const navigation = useNavigation();
   const { params } = useRoute();
-  const width = useWindowDimensions.width / 4;
+  const width = useWindowDimensions().width / 4;
 
   const [photoUris, setPhotoUris] = useState([]);
   const [text, setText] = useState('');
@@ -34,7 +34,9 @@ const WriteTextScreen = () => {
 
   const onSubmit = useCallback(() => {
     setIsLoading(true);
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
   }, []);
 
   useLayoutEffect(() => {
@@ -66,6 +68,9 @@ const WriteTextScreen = () => {
           autoCorrect={false}
           textContentType={'none'}
           keyboardAppearance={'light'}
+          multiline={true}
+          blurOnSubmit={true}
+          editable={!isLoading}
         />
         <Text style={styles.inputLength}>
           {text.length} / {MAX_TEXT_LENGTH}
