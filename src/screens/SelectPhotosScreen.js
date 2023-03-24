@@ -32,7 +32,7 @@ const SelectPhotosScreen = () => {
 
   useEffect(() => {
     if (params) {
-      setPhotos(params.selectPhotos ?? []);
+      setPhotos(params.selectedPhotos ?? []);
     }
   }, [params]);
 
@@ -48,6 +48,7 @@ const SelectPhotosScreen = () => {
             })
           )
         );
+        console.log(localUris);
       } catch (e) {
         Alert.alert('Failed to fetch image information', e.message);
       }
