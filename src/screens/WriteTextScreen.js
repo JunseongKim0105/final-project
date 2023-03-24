@@ -7,12 +7,10 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GRAY, PRIMARY } from '../colors';
+import { GRAY } from '../colors';
 import FastImage from '../components/FastImage';
 import HeaderRight from '../components/HeaderRight';
-import { MAP_KEY } from '../../env';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import LocationSearch from '../components/LocationSearch';
 
 const MAX_TEXT_LENGTH = 60;
 
@@ -60,24 +58,11 @@ const WriteTextScreen = () => {
         ))}
       </View>
 
-      <View style={styles.location}>
-        <GooglePlacesAutocomplete
-          placeholder={'Location'}
-          query={{ key: MAP_KEY, language: 'en' }}
-          onPress={(data) => setLocation(data.description)}
-          onFail={(e) => {
-            console.log('GooglePlacesAutocomplete : ', e);
-          }}
-          styles={{ container: { flex: 0 }, textInput: { paddingLeft: 30 } }}
-        />
-        <View style={styles.locationIcon}>
-          <MaterialCommunityIcons
-            name="map-marker"
-            size={20}
-            color={location ? PRIMARY.DEFAULT : GRAY.DARK}
-          />
-        </View>
-      </View>
+      <LocationSearch
+        onPress={({ description }) => setLocation(description)}
+        isLoading={isLoading}
+        isSelected={!!location}
+      />
 
       <View>
         <TextInput
@@ -116,17 +101,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     color: GRAY.DARK,
     fontSize: 12,
-  },
-  location: {
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderBottomWidth: 0.5,
-    borderBottomColor: GRAY.LIGHT,
-  },
-  locationIcon: {
-    position: 'absolute',
-    left: 20,
-    top: 16,
   },
 });
 
