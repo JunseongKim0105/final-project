@@ -16,7 +16,7 @@ const usePosts = (isMine) => {
       lastRef.current = last;
       isLoadingRef.current = false;
     }
-  },[isMine]);
+  }, [isMine]);
 
   const refetch = async () => {
     setRefetching(true);
@@ -25,11 +25,19 @@ const usePosts = (isMine) => {
     setRefetching(false);
   };
 
+  const deletePost = ({ id }) => {
+    setData((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const updatePost = ({ post }) => {
+    setData((prev) => prev.map((item) => (item.id === post.id ? post : item)));
+  };
+
   useEffect(() => {
     fetchNextPage();
   }, [fetchNextPage]);
 
-  return { data, fetchNextPage, refetch, refetching };
+  return { data, fetchNextPage, refetch, refetching, deletePost, updatePost };
 };
 
 export default usePosts;

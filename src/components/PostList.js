@@ -5,14 +5,19 @@ import usePosts from '../hooks/usePosts';
 import { useEffect } from 'react';
 import event, { EventTypes } from '../event';
 import PropTypes from 'prop-types';
+import { updatePost } from '../api/post';
+
 const PostList = ({ isMine }) => {
-  const { data, fetchNextPage, refetch, refetching } = usePosts(isMine);
+  const { data, fetchNextPage, refetch, refetching, deletePost, updatePost } =
+    usePosts(isMine);
 
   useEffect(() => {
     event.addListener(EventTypes.REFRESH, refetch);
+    event.addListener(EventTypes.DELETE, deletePost);
+    event.addListener(EventTypes.UPDATE, updatePost);
 
     return () => event.removeAllListeners();
-  }, [refetch]);
+  }, [refetch, deletePost, updatePost]);
 
   return (
     <FlatList

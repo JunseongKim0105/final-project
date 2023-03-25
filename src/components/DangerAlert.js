@@ -6,13 +6,19 @@ import Button, { ButtonTypes } from './Button';
 
 export const AlertTypes = {
   SIGNOUT: 'SIGNOUT',
+  DELETE_POST: 'DELETE_POST',
 };
 
 const DangerAlertProps = {
   SIGNOUT: {
     iconName: 'logout-variant',
     title: 'logout',
-    message: 'Are you sure you want to log out?',
+    message: 'Are you sure you want to logout?',
+  },
+  DELETE_POST: {
+    iconName: 'delete-variant',
+    title: 'Delete',
+    message: 'Are you sure you want to delete it? ',
   },
 };
 
