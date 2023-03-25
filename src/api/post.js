@@ -28,7 +28,7 @@ export const createPost = async ({ photos, location, text }) => {
       createdTs: Date.now(),
     });
   } catch (e) {
-    throw new Error('글 작성 실패');
+    throw new Error('Failed to create post');
   }
 };
 
@@ -80,7 +80,7 @@ export const updatePost = async (post) => {
   try {
     await setDoc(doc(getFirestore(), `posts/${post.id}`), post);
   } catch (e) {
-    throw new Error('글 수정 실패');
+    throw new Error('Failed to edit post');
   }
 };
 

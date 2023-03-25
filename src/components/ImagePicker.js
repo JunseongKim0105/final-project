@@ -24,12 +24,16 @@ const ImagePicker = ({ togglePhoto, isSelectedPhoto }) => {
     (async () => {
       const { granted } = await requestPermission();
       if (!granted) {
-        Alert.alert('사진 접근 권한', '사진 접근 권한이 필요합니다.', [
-          {
-            text: 'Confirm',
-            onPress: () => navigation.canGoBack() && navigation.goBack(),
-          },
-        ]);
+        Alert.alert(
+          'Access to Photos Required',
+          'Access to photos is required to proceed. Please grant permission to continue.',
+          [
+            {
+              text: 'Confirm',
+              onPress: () => navigation.canGoBack() && navigation.goBack(),
+            },
+          ]
+        );
       }
     })();
   }, [navigation, requestPermission]);

@@ -55,7 +55,7 @@ const SignUpScreen = () => {
         setUser(user);
       } catch (e) {
         const message = getAuthErrorMessages(e.code);
-        Alert.alert('Sign up is failed', message, [
+        Alert.alert('Sign up failed', message, [
           {
             text: 'confirm',
             onPress: () => dispatch({ type: AuthFormTypes.TOGGLE_LOADING }),
