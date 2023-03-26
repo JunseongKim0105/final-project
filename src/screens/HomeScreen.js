@@ -20,7 +20,7 @@ const HomeScreen = () => {
     <View style={[styles.container, { paddingTop: top }]}>
       <View style={styles.topContainer}>
         <Image source={require('../../assets/icon.png')} style={styles.icon} />
-        <Text style={styles.title}>PlacePhotos</Text>
+        <Text style={styles.title}>Travel Diary</Text>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: 90,
+    height: 90,
     borderRadius: 30,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: '700',
     marginLeft: 10,
   },
