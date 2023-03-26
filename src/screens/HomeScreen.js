@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   title: {
-    fontSize: 35,
+    fontSize: 33,
     fontWeight: '700',
     marginLeft: 10,
   },
