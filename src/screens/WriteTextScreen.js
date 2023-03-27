@@ -113,7 +113,7 @@ const WriteTextScreen = () => {
           value={text}
           onChangeText={(text) => setText(text)}
           style={styles.input}
-          placeholder={'Write description of the pictures '}
+          placeholder={'Write a description of the pictures '}
           maxLength={MAX_TEXT_LENGTH}
           returnKeyType={'done'}
           autoCapitalize={'none'}
